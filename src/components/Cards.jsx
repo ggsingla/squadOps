@@ -24,8 +24,17 @@ const bull = (
 
 function HackathonCard() {
   return (
-    <Grid item xs={12} sm={6} md={4}>
-      <Card elevation={3} sx={{ background: '#fff', p: '1em' }}>
+    <Grid
+      sx={{
+        mt: 4,
+      }}
+      item
+      xs={12}
+      sm={6}
+      md={4}>
+      <Card
+        elevation={10}
+        sx={{ borderRadius: 2, background: '#fff', p: '1em' }}>
         <CardContent>
           <Stack direction='row' spacing={1} sx={{ alignItems: 'center' }}>
             <Typography

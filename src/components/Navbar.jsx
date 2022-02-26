@@ -1,7 +1,10 @@
 import { Link, Stack } from '@mui/material'
+import { makeStyles } from '@mui/styles'
 import Box from '@mui/material/Box'
 import Avatar from '@mui/material/Avatar'
 import NotificationsNoneOutlinedIcon from '@mui/icons-material/NotificationsNoneOutlined'
+import { indigo } from '@mui/material/colors'
+import { Translate } from '@mui/icons-material'
 
 function stringToColor(string) {
   let hash = 0
@@ -31,7 +34,26 @@ function stringAvatar(name) {
   }
 }
 
-export default function Navbar() {
+const useStyles = makeStyles({
+  selected: {
+    fontWeight: 'bold',
+    position: 'relative',
+    '&::after': {
+      content: '""',
+      position: 'absolute',
+      top: '100%',
+      left: '0',
+      width: '60%',
+      height: '4px',
+      backgroundColor: indigo[500],
+      borderRadius: '2px',
+    },
+  },
+})
+
+export default function Navbar(props) {
+  const classes = useStyles(props)
+
   return (
     <>
       <Box
@@ -39,21 +61,22 @@ export default function Navbar() {
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
-          mt: '1.75em',
+          py: 3,
           width: '100%',
         }}>
         <Box>
           <Stack direction='row' spacing={2}>
             <Link
               underline='none'
-              color='inherit'
-              sx={{ fontSize: '1.125rem', fontWeight: 'bold' }}>
+              color='text.primary'
+              className={classes.selected}
+              sx={{ fontSize: '1.125rem' }}>
               Home
             </Link>
             <Link
               sx={{ fontSize: '1.125rem' }}
               underline='none'
-              color='inherit'>
+              color='text.primary'>
               My Hackathons
             </Link>
           </Stack>

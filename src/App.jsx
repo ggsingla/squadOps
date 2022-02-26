@@ -3,14 +3,7 @@ import Navbar from './components/Navbar'
 import Home from './pages/Home'
 import { createTheme } from '@mui/material/styles'
 import { deepOrange, indigo } from '@mui/material/colors'
-import { ThemeProvider } from '@mui/material'
-
-// importing fonts
-import '@fontsource/poppins/300.css'
-import '@fontsource/poppins/400.css'
-import '@fontsource/poppins/500.css'
-import '@fontsource/poppins/700.css'
-import '@fontsource/poppins/800.css'
+import { CssBaseline, ThemeProvider } from '@mui/material'
 
 const theme = createTheme({
   palette: {
@@ -20,8 +13,8 @@ const theme = createTheme({
     background: {
       default: '#eff3f6',
     },
-    typography: {
-      fontFamily: ['Poppins', 'sans-serif'].join(','),
+    shape: {
+      borderRadius: 10,
     },
   },
 })
@@ -29,6 +22,7 @@ const theme = createTheme({
 export default function App() {
   return (
     <>
+      <CssBaseline />
       <ThemeProvider theme={theme}>
         <Container
           maxWidth='lg'
@@ -36,6 +30,7 @@ export default function App() {
             display: 'grid',
             placeItems: 'center',
             fontFamily: '"Poppins"',
+            pb: 5,
           }}>
           <Navbar />
           <Home />

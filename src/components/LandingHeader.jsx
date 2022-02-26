@@ -8,9 +8,12 @@ import { grey, indigo } from '@mui/material/colors'
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
   borderRadius: theme.shape.borderRadius,
-  backgroundColor: alpha(theme.palette.common.black, 0.15),
-  '&:hover': {
-    backgroundColor: alpha(theme.palette.common.black, 0.25),
+  border: `1px solid ${grey[400]}`,
+  backgroundColor: grey[50],
+  boxShadow: '0px 9px 22px 0px #16223314, 0px 6px 10px -4px #16223314',
+  '&:hover, &:focus-within': {
+    backgroundColor: grey[200],
+    boxShadow: `0 0 0 2px ${indigo[500]}`,
   },
   marginRight: theme.spacing(2),
   marginLeft: 0,
@@ -25,7 +28,8 @@ const SearchIconWrapper = styled('div')(({ theme }) => ({
   padding: theme.spacing(0, 2),
   height: '100%',
   position: 'absolute',
-  pointerEvents: 'none',
+  pointerEvents: 'all',
+  cursor: 'pointer',
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
@@ -53,7 +57,7 @@ export default function LandingHeader() {
         alignItems: 'center',
         flexDirection: 'column',
         maxWidth: 'sm',
-        marginBlock: '3em',
+        my: 3,
         gap: '1em',
       }}>
       <Typography variant='h1' fontWeight={800} color='primary'>
@@ -73,7 +77,7 @@ export default function LandingHeader() {
         We help you find your future team mates so that you can ace your
         upcoming hackathons
       </Typography>
-      <Search sx={{ marginTop: '2em' }}>
+      <Search sx={{ borderRadius: 6, marginTop: '2em' }}>
         <SearchIconWrapper>
           <SearchIcon sx={{ color: grey[700] }} />
         </SearchIconWrapper>
