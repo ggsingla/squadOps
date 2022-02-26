@@ -5,14 +5,14 @@ const teamSchema=new mongoose.Schema({
     leadername:{type:String,required:true},
     leaderemail:{type:String,required:true},
     hackathonname:{type:String,required:true}, 
-    hakathonid:{type:String,required:true},
+    hackathonid:{type:String,required:true},
     teamname:{type:String,required:true},
-    teamid:{type:String,required:true},
+    id:{type:String,required:true},
     teammembers:{type:Array,default:[]},
     completed:{type:Boolean,default:false},
     teamsize:{type:Number,deafult:1},
-    reqirements:{type:Array,required:true},
-    meesages:{type:Object,default:{}}
+    requirements:{type:Array,required:true},
+    messages:{type:Object,default:{}}
 });
 
 teamSchema.set('toJSON', {

@@ -13,15 +13,16 @@ router.post('/add', (req, res) => {
         const id = uuid.v4();
         const hack = new hackSchema({
             name: req.body.name,
-            dates: req.body.dates,
             venue: req.body.venue,
             size: req.body.size,
+            startDate: req.body.startDate,
+            endDate: req.body.endDate,
             id:id
         });
         hack
             .save()
             .then((result) => {
-                res.sendSatus(200);
+                res.sendStatus(200);
             })
             .catch((err) => {
                 console.log(err);

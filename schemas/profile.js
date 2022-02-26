@@ -3,13 +3,14 @@ const mongoose=require('mongoose');
 const profileSchema=new mongoose.Schema({
     id:{type:String},
     desc:{type:String},
-    skills:{type:Object},
+    skills:{type:Array},
     socialLinks:{type:Object},
     gender:{type:String},
     pic:{type:String},
     location:{type:String},
     edu:{type:String},
-    discord:{type:String}
+    email:{type:String},
+    discordId:{type:String}
 });
 
 profileSchema.set('toJSON', {

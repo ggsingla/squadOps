@@ -19,9 +19,14 @@ router.post("/location", async(req, res) => {
 
 router.post("/skills", async(req, res) => {   
     try{
-        const skills=await profile.find({skills:req.body.skills});
-
-        res.send(skills);
+        const user=await profile.find({});
+        const  out=[];  
+        user.forEach(element => {
+            if(element.skills.includes(req.body.skills)){
+                out.push(element);
+            }
+        });
+        res.send(out);
     }
     catch(err){
         res.sendStatus(500);

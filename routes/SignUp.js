@@ -15,7 +15,7 @@ router.post("/", async(req, res) => {
   try {
     const oldUser=await logSchema.findOne({email:req.body.email});
     if(oldUser){
-        res.sendStatus(400);
+        res.send({error:"email is already registered"});
     }
     const encrpytPass = bycrpt.hashSync(req.body.password, 10);
     const id = uuid.v4();
