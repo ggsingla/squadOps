@@ -4,6 +4,8 @@ import Home from './pages/Home'
 import { createTheme } from '@mui/material/styles'
 import { deepOrange, indigo } from '@mui/material/colors'
 import { CssBaseline, ThemeProvider } from '@mui/material'
+import { Routes, Route, Link } from 'react-router-dom'
+import Hackathon from './pages/Hackathon'
 
 const theme = createTheme({
   palette: {
@@ -33,7 +35,10 @@ export default function App() {
             pb: 5,
           }}>
           <Navbar />
-          <Home />
+          <Routes>
+            <Route path='/' element={<Home />} />
+            <Route path='/hackathon' element={<Hackathon />} />
+          </Routes>
         </Container>
       </ThemeProvider>
     </>

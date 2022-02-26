@@ -67,10 +67,8 @@ export default function LandingHeader() {
         ops
       </Typography>
       <Typography
-        variant='body1'
+        variant='h6'
         sx={{
-          fontSize: '1.5rem',
-          lineHeight: '1.5',
           color: '#4B5563',
           textAlign: 'center',
         }}>

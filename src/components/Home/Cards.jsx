@@ -22,7 +22,7 @@ const bull = (
   </Box>
 )
 
-function HackathonCard() {
+function HackathonCard({ hackathon }) {
   return (
     <Grid
       sx={{
@@ -42,9 +42,9 @@ function HackathonCard() {
               fontWeight={600}
               color='text.primary'
               component='div'>
-              Hackmol 3.0
+              {hackathon.name}
             </Typography>
-            <Link href='#'>
+            <Link href={hackathon.website}>
               <LinkIcon />
             </Link>
           </Stack>
@@ -54,21 +54,21 @@ function HackathonCard() {
             sx={{ marginBlock: '1em', justifyContent: 'space-between' }}>
             <Stack>
               <Typography
-                variant='overline'
+                variant='button'
                 fontWeight={600}
                 color='text.secondary'>
                 Starts
               </Typography>
-              <Typography variant='body1'>Feb 25,2022</Typography>
+              <Typography variant='body1'>{hackathon.date.start}</Typography>
             </Stack>
             <Stack>
               <Typography
-                variant='overline'
+                variant='button'
                 fontWeight={600}
                 color='text.secondary'>
                 Ends
               </Typography>
-              <Typography variant='body1'>Feb 25,2022</Typography>
+              <Typography variant='body1'>{hackathon.date.end}</Typography>
             </Stack>
           </Stack>
           <Stack
@@ -77,12 +77,14 @@ function HackathonCard() {
             sx={{ marginBlock: '1em', justifyContent: 'space-between' }}>
             <Stack>
               <Typography
-                variant='overline'
+                variant='button'
                 fontWeight={600}
                 color='text.secondary'>
                 Venue
               </Typography>
-              <Typography variant='body1'>Completely Online {bull}</Typography>
+              <Typography variant='body1'>
+                {hackathon.place} {bull}
+              </Typography>
             </Stack>
           </Stack>
         </CardContent>
@@ -100,15 +102,26 @@ function HackathonCard() {
     </Grid>
   )
 }
+// sample object needed from API:
+const Hackathon = {
+  name: 'Hackmol 3.0',
+  id: 1,
+  date: {
+    start: 'Feb 25,2022',
+    end: 'Feb 25,2022',
+  },
+  place: 'Online',
+  website: 'https://hackmol3.tech',
+}
 
 export default function HackathonCards() {
   return (
     <Grid container spacing={4}>
-      <HackathonCard />
-      <HackathonCard />
-      <HackathonCard />
-      <HackathonCard />
-      <HackathonCard />
+      <HackathonCard hackathon={Hackathon} />
+      <HackathonCard hackathon={Hackathon} />
+      <HackathonCard hackathon={Hackathon} />
+      <HackathonCard hackathon={Hackathon} />
+      <HackathonCard hackathon={Hackathon} />
     </Grid>
   )
 }
