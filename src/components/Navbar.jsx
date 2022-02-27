@@ -89,7 +89,7 @@ export default function Navbar(props) {
           <NotificationsNoneOutlinedIcon color='inherit' />
           <Avatar
             sx={{ height: 40, width: 40 }}
-            {...stringAvatar('Aditya Gupta')}
+            {...stringAvatar('Gautam Singla')}
           />
         </Stack>
       </Box>

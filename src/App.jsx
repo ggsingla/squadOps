@@ -6,6 +6,9 @@ import { deepOrange, grey, indigo } from '@mui/material/colors'
 import { CssBaseline, ThemeProvider } from '@mui/material'
 import { Routes, Route, Link } from 'react-router-dom'
 import Hackathon from './pages/Hackathon'
+import Login from './pages/Login'
+import Register from './pages/Register'
+import RegisterStep2 from './pages/RegisterStep2'
 
 const theme = createTheme({
   palette: {
@@ -35,10 +38,12 @@ export default function App() {
             pb: 5,
             position: 'initial',
           }}>
-          <Navbar />
           <Routes>
-            <Route path='/' element={<Home />} />
+            <Route path='/home' element={<Home />} />
             <Route path='/hackathon' element={<Hackathon />} />
+            <Route path='/' element={<Login />} />
+            <Route path='/register' element={<Register />} />
+            <Route path='/register-step-2' element={<RegisterStep2 />} />
           </Routes>
         </Container>
       </ThemeProvider>
