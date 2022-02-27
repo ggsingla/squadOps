@@ -38,7 +38,9 @@ export default function LoginForm() {
     validationSchema: LoginSchema,
     onSubmit: () => {
       login(formik.values.email, formik.values.password);
-      navigate('/home', { replace: true })
+
+      const obj={email:formik.values.email};
+      navigate('/home', { replace: true },{state:{obj}})
     },
   })
 

@@ -9,7 +9,7 @@ import { Grid, Link, Paper, Stack } from '@mui/material'
 import LinkIcon from '@mui/icons-material/Link'
 import { green } from '@mui/material/colors'
 import axios from 'axios'
-
+import { Route, useNavigate,useLocation } from 'react-router-dom';
 const bull = (
   <Box
     component='span'
@@ -24,6 +24,14 @@ const bull = (
 )
 
 function HackathonCard({ hackathon }) {
+  const navigate = useNavigate();
+  const location = useLocation();
+  
+  const handleSubmit=(id,name)=>{
+   
+    navigate('/new', { replace: true },{state:{id:id,name:name}});
+  }
+  
   return (
     <Grid
       sx={{
@@ -91,10 +99,11 @@ function HackathonCard({ hackathon }) {
         </CardContent>
         <CardActions>
           <Stack spacing={2} sx={{ width: '100%' }}>
-            <Button variant='contained' sx={{ width: '100%' }}>
+            <Button variant='contained' sx={{ width: '100%' }}
+              >
               Join a Team
             </Button>
-            <Button variant='outlined' sx={{ width: '100%' }}>
+            <Button variant='outlined' sx={{ width: '100%' }} onClick={()=>handleSubmit(hackathon.id,hackathon.name)}>
               Complete your Team
             </Button>
           </Stack>
@@ -123,7 +132,8 @@ export default function HackathonCards() {
   const [hackathons, setHackathons] = React.useState([]);
   React.useEffect(() => {
     getHackathons().then(setHackathons);
-  });
+  },[]);
+  console.log(hackathons);
   return (
     <Grid container spacing={4}>
       {hackathons.map((hackathon) => (

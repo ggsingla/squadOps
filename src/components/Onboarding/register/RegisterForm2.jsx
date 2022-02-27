@@ -68,7 +68,8 @@ export default function RegisterForm2(props) {
         skills:skills,
       }
       addProfile(regObj);
-      navigate('/home', { replace: true },{email:props.email,name:props.name})
+      const obj={email:location.state.obj.email,name:location.state.obj.name};
+      navigate('/home',{state:{obj}});
     },
   })
 
