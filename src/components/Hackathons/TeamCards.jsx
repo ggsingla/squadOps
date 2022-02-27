@@ -12,147 +12,153 @@ import {
   Stack,
 } from '@mui/material'
 import { useState } from 'react'
+import TeamModal from './TeamModal'
 
-function HackathonCard() {
+function HackathonCard({ team }) {
   const [pinned, setPinned] = useState(false)
+  const [open, setOpen] = useState(false)
+  function handleClose() {
+    setOpen(false)
+  }
   return (
-    <Grid
-      sx={{
-        mt: 4,
-      }}
-      item
-      xs={12}
-      sm={6}
-      md={4}>
-      <Card
-        elevation={10}
+    <>
+      <Grid
         sx={{
-          borderRadius: 2,
-          background: '#fff',
-          p: '1em',
-          position: 'relative',
-          overflow: 'visible',
-        }}>
-        <Avatar
-          src='https://user-images.githubusercontent.com/76390562/155853845-29cfeeec-b739-4435-b63c-1fa664b3e344.png'
+          mt: 4,
+        }}
+        item
+        xs={12}
+        sm={6}
+        md={4}>
+        <Card
+          elevation={10}
           sx={{
-            position: 'absolute',
-            top: 0,
-            right: 0,
-            transform: 'translate(30%, -30%)',
-            filter: `${!pinned ? 'grayscale(100%)' : ''}`,
-          }}
-          onClick={() => setPinned(!pinned)}
-        />
-        <CardContent>
-          <Stack
-            id='team name'
-            direction='row'
-            spacing={1}
-            sx={{ justifyContent: 'space-between', alignItems: 'center' }}>
-            <Typography
-              variant='h5'
-              fontWeight={600}
-              color='text.primary'
-              component='div'>
-              Geeky Builders
-            </Typography>
-            <Typography sx={{ fontWeight: '500' }}>
+            borderRadius: 2,
+            background: '#fff',
+            p: '1em',
+            position: 'relative',
+            overflow: 'visible',
+          }}>
+          <Avatar
+            src='https://user-images.githubusercontent.com/76390562/155853845-29cfeeec-b739-4435-b63c-1fa664b3e344.png'
+            sx={{
+              position: 'absolute',
+              top: 0,
+              right: 0,
+              transform: 'translate(30%, -30%)',
+              filter: `${!pinned ? 'grayscale(100%)' : ''}`,
+            }}
+            onClick={() => setPinned(!pinned)}
+          />
+          <CardContent>
+            <Stack
+              id='team name'
+              direction='row'
+              spacing={1}
+              sx={{ justifyContent: 'space-between', alignItems: 'center' }}>
               <Typography
-                component='span'
                 variant='h5'
-                color='primary'
-                sx={{ fontWeight: 'bold' }}>
-                3
-              </Typography>
-              /5
-            </Typography>
-          </Stack>
-          <Stack
-            id='members'
-            spacing={2}
-            sx={{ marginBlock: '1em', justifyContent: 'space-between' }}>
-            <Stack
-              direction='row'
-              sx={{ width: '100%', justifyContent: 'space-between' }}>
-              <Typography
-                variant='button'
                 fontWeight={600}
-                color='text.secondary'>
-                Members
+                color='text.primary'
+                component='div'>
+                {team.name}
               </Typography>
-              <Typography variant='body1'>
-                <List sx={{ p: 0, m: 0 }}>
-                  <ListItem sx={{ p: 0 }}>
-                    <ListItemText
-                      sx={{ p: 0, m: 0 }}
-                      primary='Single-line item'
-                    />
-                  </ListItem>
-                  <ListItem sx={{ p: 0 }}>
-                    <ListItemText
-                      sx={{ p: 0, m: 0 }}
-                      primary='Single-line item'
-                    />
-                  </ListItem>
-                  <ListItem sx={{ p: 0 }}>
-                    <ListItemText
-                      sx={{ p: 0, m: 0 }}
-                      primary='Single-line item'
-                    />
-                  </ListItem>
-                </List>
+              <Typography sx={{ fontWeight: '500' }}>
+                <Typography
+                  component='span'
+                  variant='h5'
+                  color='primary'
+                  sx={{ fontWeight: 'bold' }}>
+                  {team.members.length}
+                </Typography>
+                /{team.maxSize}
               </Typography>
             </Stack>
             <Stack
-              direction='row'
-              sx={{ width: '100%', justifyContent: 'space-between' }}>
-              <Typography
-                variant='button'
-                fontWeight={600}
-                color='text.secondary'>
-                Required
-              </Typography>
-              <Typography
-                variant='body1'
-                color='primary'
-                sx={{ fontWeight: '500', textAlign: 'right', maxWidth: '60%' }}>
-                Designer, Backend Dev
-              </Typography>
+              id='members'
+              spacing={2}
+              sx={{ marginBlock: '1em', justifyContent: 'space-between' }}>
+              <Stack
+                direction='row'
+                sx={{ width: '100%', justifyContent: 'space-between' }}>
+                <Typography
+                  variant='button'
+                  fontWeight={600}
+                  color='text.secondary'>
+                  Members
+                </Typography>
+                <Typography variant='body1'>
+                  <List sx={{ p: 0, m: 0 }}>
+                    {team.members.map((member) => (
+                      <ListItem sx={{ p: 0 }}>
+                        <ListItemText
+                          align='right'
+                          sx={{ p: 0, m: 0 }}
+                          primary={member}
+                        />
+                      </ListItem>
+                    ))}
+                  </List>
+                </Typography>
+              </Stack>
+              <Stack
+                direction='row'
+                sx={{ width: '100%', justifyContent: 'space-between' }}>
+                <Typography
+                  variant='button'
+                  fontWeight={600}
+                  color='text.secondary'>
+                  Required
+                </Typography>
+                <Typography
+                  variant='body1'
+                  color='primary'
+                  sx={{
+                    fontWeight: '500',
+                    textAlign: 'right',
+                    maxWidth: '60%',
+                  }}>
+                  {team.required}
+                </Typography>
+              </Stack>
             </Stack>
-          </Stack>
-        </CardContent>
-        <CardActions>
-          <Stack spacing={2} sx={{ width: '100%' }}>
-            <Button variant='contained' sx={{ width: '100%' }}>
-              Reach Out
-            </Button>
-          </Stack>
-        </CardActions>
-      </Card>
-    </Grid>
+          </CardContent>
+          <CardActions>
+            <Stack spacing={2} sx={{ width: '100%' }}>
+              <Button
+                onClick={() => {
+                  setOpen(true)
+                }}
+                variant='contained'
+                sx={{ width: '100%' }}>
+                Reach Out
+              </Button>
+            </Stack>
+          </CardActions>
+        </Card>
+      </Grid>
+      <TeamModal team={team} open={open} handleClose={handleClose} />
+    </>
   )
 }
 // sample object needed from API:
-const Hackathon = {
-  name: 'Hackmol 3.0',
+const Team = {
+  name: 'Geeky Builders',
+  desp: 'We are looking for an ethusiaist Desiger and backend developer, who can help us in making our idea into a reality. We are not looking for professional level of work but a little peak on your previous projects would help us build a trust in you. We are always looking to expand our team.',
   id: 1,
-  date: {
-    start: 'Feb 25,2022',
-    end: 'Feb 25,2022',
-  },
-  place: 'Online',
-  website: 'https://hackmol3.tech',
+  members: ['Marley Press', 'Marley Press', 'Marley Press'],
+  maxSize: '5',
+  required: 'Designer, Backend Dev',
 }
 
 export default function TeamCards() {
   return (
-    <Grid container spacing={6}>
-      <HackathonCard />
-      <HackathonCard />
-      <HackathonCard />
-      <HackathonCard />
-      <HackathonCard />
+    <Grid sx={{ position: 'initial' }} container spacing={6}>
+      <HackathonCard team={Team} />
+      <HackathonCard team={Team} />
+      <HackathonCard team={Team} />
+      <HackathonCard team={Team} />
+      <HackathonCard team={Team} />
     </Grid>
   )
 }
