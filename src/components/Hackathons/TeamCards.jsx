@@ -3,6 +3,7 @@ import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
+import { useLocation } from "react-router-dom";
 import {
   Avatar,
   Grid,
@@ -13,7 +14,7 @@ import {
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import TeamModal from "./TeamModal";
-import {data} from '../../Api/hacakthon.jsx'
+
 
 
 function HackathonCard({ team }) {
@@ -157,15 +158,23 @@ function HackathonCard({ team }) {
   );
 }
 // sample object needed from API:
-
+const Team = {
+  name: 'Geeky Builders',
+  desp: 'We are looking for an ethusiaist Desiger and backend developer, who can help us in making our idea into a reality. We are not looking for professional level of work but a little peak on your previous projects would help us build a trust in you. We are always looking to expand our team.',
+  id: 1,
+members: ['Marley Press', 'Marley Press', 'Marley Press'],
+  maxSize: '5',
+  required: 'Designer, Backend Dev',
+}
 export default function TeamCards() {
+  
   return (
     <Grid sx={{ position: 'initial' }} container spacing={6}>
       <HackathonCard team={Team} />
       <HackathonCard team={Team} />
       <HackathonCard team={Team} />
       <HackathonCard team={Team} />
-      <HackathonCard team={Team} />
+      
     </Grid>
   )
 }

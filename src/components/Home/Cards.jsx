@@ -32,6 +32,9 @@ function HackathonCard({ hackathon }) {
     navigate('/new', { replace: true },{state:{id:id,name:name}});
   }
   
+  const handleSubmit1=(id,name)=>{
+    navigate('/hackathon', { replace: true },{state:{id:id,name:name}});
+  }
   return (
     <Grid
       sx={{
@@ -100,7 +103,7 @@ function HackathonCard({ hackathon }) {
         <CardActions>
           <Stack spacing={2} sx={{ width: '100%' }}>
             <Button variant='contained' sx={{ width: '100%' }}
-              >
+              onClick={()=>handleSubmit1(hackathon.id,hackathon.name)}>
               Join a Team
             </Button>
             <Button variant='outlined' sx={{ width: '100%' }} onClick={()=>handleSubmit(hackathon.id,hackathon.name)}>
