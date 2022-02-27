@@ -4,7 +4,7 @@ import Box from '@mui/material/Box'
 import Avatar from '@mui/material/Avatar'
 import NotificationsNoneOutlinedIcon from '@mui/icons-material/NotificationsNoneOutlined'
 import { indigo } from '@mui/material/colors'
-import { Translate } from '@mui/icons-material'
+import { Link as RouterLink } from 'react-router-dom'
 
 function stringToColor(string) {
   let hash = 0
@@ -66,13 +66,15 @@ export default function Navbar(props) {
         }}>
         <Box>
           <Stack direction='row' spacing={2}>
-            <Link
-              underline='none'
-              color='text.primary'
-              className={classes.selected}
-              sx={{ fontSize: '1.125rem' }}>
-              Home
-            </Link>
+            <RouterLink to='/home' style={{ textDecoration: 'none' }}>
+              <Link
+                underline='none'
+                color='text.primary'
+                className={classes.selected}
+                sx={{ fontSize: '1.125rem', cursor: 'pointer' }}>
+                Home
+              </Link>
+            </RouterLink>
             <Link
               sx={{ fontSize: '1.125rem' }}
               underline='none'
