@@ -1,19 +1,18 @@
 import * as Yup from 'yup'
 import { useState } from 'react'
 import { useFormik, Form, FormikProvider } from 'formik'
-import { useNavigate } from 'react-router-dom'
+import { Route, useNavigate } from 'react-router-dom'
 // material
 import { Stack, TextField, IconButton, InputAdornment } from '@mui/material'
 import { LoadingButton } from '@mui/lab'
 // component
 import Iconify from '../Iconify'
-
+import {signup} from '../../../Api/signup'
 // ----------------------------------------------------------------------
 
-export default function RegisterForm() {
+export default function RegisterForm(props) {
   const navigate = useNavigate()
   const [showPassword, setShowPassword] = useState(false)
-
   const RegisterSchema = Yup.object().shape({
     firstName: Yup.string()
       .min(2, 'Too Short!')
@@ -38,7 +37,12 @@ export default function RegisterForm() {
     },
     validationSchema: RegisterSchema,
     onSubmit: () => {
-      navigate('/dashboard', { replace: true })
+      signup(formik.values.email,formik.values.password,formik.values.firstName+" "+formik.values.lastName);
+      // passing props to the next page and navigate to the next page
+      // go to register page
+      const obj={name:formik.values.firstName+" "+formik.values.lastName,email:formik.values.email};
+  
+      navigate('/register-step-2', { state: { obj } });
     },
   })
 

@@ -8,6 +8,7 @@ import Typography from '@mui/material/Typography'
 import { Grid, Link, Paper, Stack } from '@mui/material'
 import LinkIcon from '@mui/icons-material/Link'
 import { green } from '@mui/material/colors'
+import axios from 'axios'
 
 const bull = (
   <Box
@@ -44,7 +45,7 @@ function HackathonCard({ hackathon }) {
               component='div'>
               {hackathon.name}
             </Typography>
-            <Link href={hackathon.website}>
+            <Link href="">
               <LinkIcon />
             </Link>
           </Stack>
@@ -59,7 +60,7 @@ function HackathonCard({ hackathon }) {
                 color='text.secondary'>
                 Starts
               </Typography>
-              <Typography variant='body1'>{hackathon.date.start}</Typography>
+              <Typography variant='body1'>{hackathon.startDate}</Typography>
             </Stack>
             <Stack>
               <Typography
@@ -68,7 +69,7 @@ function HackathonCard({ hackathon }) {
                 color='text.secondary'>
                 Ends
               </Typography>
-              <Typography variant='body1'>{hackathon.date.end}</Typography>
+              <Typography variant='body1'>{hackathon.endDate}</Typography>
             </Stack>
           </Stack>
           <Stack
@@ -83,7 +84,7 @@ function HackathonCard({ hackathon }) {
                 Venue
               </Typography>
               <Typography variant='body1'>
-                {hackathon.place} {bull}
+                {hackathon.venue} {bull}
               </Typography>
             </Stack>
           </Stack>
@@ -114,14 +115,20 @@ const Hackathon = {
   website: 'https://hackmol3.tech',
 }
 
+async function getHackathons() {
+  const response = await axios.get('https://hackmol3.herokuapp.com/hackthon/show')
+  return response.data;
+}
 export default function HackathonCards() {
+  const [hackathons, setHackathons] = React.useState([]);
+  React.useEffect(() => {
+    getHackathons().then(setHackathons);
+  });
   return (
     <Grid container spacing={4}>
-      <HackathonCard hackathon={Hackathon} />
-      <HackathonCard hackathon={Hackathon} />
-      <HackathonCard hackathon={Hackathon} />
-      <HackathonCard hackathon={Hackathon} />
-      <HackathonCard hackathon={Hackathon} />
+      {hackathons.map((hackathon) => (
+        <HackathonCard hackathon={hackathon} />
+      ))}
     </Grid>
   )
 }

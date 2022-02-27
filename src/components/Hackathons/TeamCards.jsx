@@ -1,8 +1,8 @@
-import Card from '@mui/material/Card'
-import CardActions from '@mui/material/CardActions'
-import CardContent from '@mui/material/CardContent'
-import Button from '@mui/material/Button'
-import Typography from '@mui/material/Typography'
+import Card from "@mui/material/Card";
+import CardActions from "@mui/material/CardActions";
+import CardContent from "@mui/material/CardContent";
+import Button from "@mui/material/Button";
+import Typography from "@mui/material/Typography";
 import {
   Avatar,
   Grid,
@@ -10,15 +10,18 @@ import {
   ListItem,
   ListItemText,
   Stack,
-} from '@mui/material'
-import { useState } from 'react'
-import TeamModal from './TeamModal'
+} from "@mui/material";
+import { useEffect, useState } from "react";
+import TeamModal from "./TeamModal";
+import {data} from '../../Api/hacakthon.jsx'
+
 
 function HackathonCard({ team }) {
-  const [pinned, setPinned] = useState(false)
-  const [open, setOpen] = useState(false)
+ 
+  const [pinned, setPinned] = useState(false);
+  const [open, setOpen] = useState(false);
   function handleClose() {
-    setOpen(false)
+    setOpen(false);
   }
   return (
     <>
@@ -29,70 +32,78 @@ function HackathonCard({ team }) {
         item
         xs={12}
         sm={6}
-        md={4}>
+        md={4}
+      >
         <Card
           elevation={10}
           sx={{
             borderRadius: 2,
-            background: '#fff',
-            p: '1em',
-            position: 'relative',
-            overflow: 'visible',
-          }}>
+            background: "#fff",
+            p: "1em",
+            position: "relative",
+            overflow: "visible",
+          }}
+        >
           <Avatar
-            src='https://user-images.githubusercontent.com/76390562/155853845-29cfeeec-b739-4435-b63c-1fa664b3e344.png'
+            src="https://user-images.githubusercontent.com/76390562/155853845-29cfeeec-b739-4435-b63c-1fa664b3e344.png"
             sx={{
-              position: 'absolute',
+              position: "absolute",
               top: 0,
               right: 0,
-              transform: 'translate(30%, -30%)',
-              filter: `${!pinned ? 'grayscale(100%)' : ''}`,
+              transform: "translate(30%, -30%)",
+              filter: `${!pinned ? "grayscale(100%)" : ""}`,
             }}
             onClick={() => setPinned(!pinned)}
           />
           <CardContent>
             <Stack
-              id='team name'
-              direction='row'
+              id="team name"
+              direction="row"
               spacing={1}
-              sx={{ justifyContent: 'space-between', alignItems: 'center' }}>
+              sx={{ justifyContent: "space-between", alignItems: "center" }}
+            >
               <Typography
-                variant='h5'
+                variant="h5"
                 fontWeight={600}
-                color='text.primary'
-                component='div'>
+                color="text.primary"
+                component="div"
+              >
                 {team.name}
               </Typography>
-              <Typography sx={{ fontWeight: '500' }}>
+              <Typography sx={{ fontWeight: "500" }}>
                 <Typography
-                  component='span'
-                  variant='h5'
-                  color='primary'
-                  sx={{ fontWeight: 'bold' }}>
+                  component="span"
+                  variant="h5"
+                  color="primary"
+                  sx={{ fontWeight: "bold" }}
+                >
                   {team.members.length}
                 </Typography>
                 /{team.maxSize}
               </Typography>
             </Stack>
             <Stack
-              id='members'
+              id="members"
               spacing={2}
-              sx={{ marginBlock: '1em', justifyContent: 'space-between' }}>
+              sx={{ marginBlock: "1em", justifyContent: "space-between" }}
+            >
               <Stack
-                direction='row'
-                sx={{ width: '100%', justifyContent: 'space-between' }}>
+                direction="row"
+                sx={{ width: "100%", justifyContent: "space-between" }}
+              >
                 <Typography
-                  variant='button'
+                  variant="button"
                   fontWeight={600}
-                  color='text.secondary'>
+                  color="text.secondary"
+                >
                   Members
                 </Typography>
-                <Typography variant='body1'>
+                <Typography variant="body1">
                   <List sx={{ p: 0, m: 0 }}>
                     {team.members.map((member) => (
                       <ListItem sx={{ p: 0 }}>
                         <ListItemText
-                          align='right'
+                          align="right"
                           sx={{ p: 0, m: 0 }}
                           primary={member}
                         />
@@ -102,35 +113,39 @@ function HackathonCard({ team }) {
                 </Typography>
               </Stack>
               <Stack
-                direction='row'
-                sx={{ width: '100%', justifyContent: 'space-between' }}>
+                direction="row"
+                sx={{ width: "100%", justifyContent: "space-between" }}
+              >
                 <Typography
-                  variant='button'
+                  variant="button"
                   fontWeight={600}
-                  color='text.secondary'>
+                  color="text.secondary"
+                >
                   Required
                 </Typography>
                 <Typography
-                  variant='body1'
-                  color='primary'
+                  variant="body1"
+                  color="primary"
                   sx={{
-                    fontWeight: '500',
-                    textAlign: 'right',
-                    maxWidth: '60%',
-                  }}>
+                    fontWeight: "500",
+                    textAlign: "right",
+                    maxWidth: "60%",
+                  }}
+                >
                   {team.required}
                 </Typography>
               </Stack>
             </Stack>
           </CardContent>
           <CardActions>
-            <Stack spacing={2} sx={{ width: '100%' }}>
+            <Stack spacing={2} sx={{ width: "100%" }}>
               <Button
                 onClick={() => {
-                  setOpen(true)
+                  setOpen(true);
                 }}
-                variant='contained'
-                sx={{ width: '100%' }}>
+                variant="contained"
+                sx={{ width: "100%" }}
+              >
                 Reach Out
               </Button>
             </Stack>
@@ -139,17 +154,9 @@ function HackathonCard({ team }) {
       </Grid>
       <TeamModal team={team} open={open} handleClose={handleClose} />
     </>
-  )
+  );
 }
 // sample object needed from API:
-const Team = {
-  name: 'Geeky Builders',
-  desp: 'We are looking for an ethusiaist Desiger and backend developer, who can help us in making our idea into a reality. We are not looking for professional level of work but a little peak on your previous projects would help us build a trust in you. We are always looking to expand our team.',
-  id: 1,
-  members: ['Marley Press', 'Marley Press', 'Marley Press'],
-  maxSize: '5',
-  required: 'Designer, Backend Dev',
-}
 
 export default function TeamCards() {
   return (

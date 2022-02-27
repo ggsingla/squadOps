@@ -1,8 +1,10 @@
 import axios from "axios";
+import { useState } from "react";
 
-const [hackthon,sethackthon] = useState([]);
-axios.get('https://hackmol3.herokuapp.com/hackathon/show').then((response) => {
-    sethackthon(response.data);
-});
-
-export default hackthon;
+export const data = function () {
+  axios
+    .get("https://hackmol3.herokuapp.com/hackathon/show")
+    .then((response) => {
+      return response.data;
+    });
+};

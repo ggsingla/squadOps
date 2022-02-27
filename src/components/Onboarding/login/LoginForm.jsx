@@ -15,7 +15,7 @@ import {
 import { LoadingButton } from '@mui/lab'
 // component
 import Iconify from '../Iconify'
-
+import {login} from '../../../Api/login'
 // ----------------------------------------------------------------------
 
 export default function LoginForm() {
@@ -37,6 +37,7 @@ export default function LoginForm() {
     },
     validationSchema: LoginSchema,
     onSubmit: () => {
+      login(formik.values.email, formik.values.password);
       navigate('/home', { replace: true })
     },
   })

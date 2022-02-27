@@ -1,8 +1,9 @@
 import * as Yup from 'yup'
 import { useState } from 'react'
 import { useFormik, Form, FormikProvider } from 'formik'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate,useLocation } from 'react-router-dom'
 // material
+import {addProfile} from '../../../Api/profile'
 import {
   Stack,
   TextField,
@@ -18,7 +19,25 @@ import ApartmentIcon from '@mui/icons-material/Apartment'
 import GitHubIcon from '@mui/icons-material/GitHub'
 // ----------------------------------------------------------------------
 
-export default function RegisterForm2() {
+export default function RegisterForm2(props) {
+  const location=useLocation();
+  const [state, setState] = useState({});
+  const handleChange = (event) => {
+    setState({
+      ...state,
+      [event.target.name]: event.target.checked,
+    });
+  };
+  const [skills,setSkills]=useState([]);
+  const handleSkills = (event) => {
+    let arr=[];
+    for(let skill in state){
+      if(state[skill]===true){
+        arr.push(skill);
+      }
+    }
+    setSkills(arr);
+  };
   const navigate = useNavigate()
   const RegisterSchema = Yup.object().shape({
     collegeName: Yup.string()
@@ -39,12 +58,22 @@ export default function RegisterForm2() {
     },
     validationSchema: RegisterSchema,
     onSubmit: () => {
-      navigate('/home', { replace: true })
+      handleSkills();
+      
+      const regObj={
+        socialLinks:[formik.values.linkedInURL,formik.values.githubURL],
+        edu: formik.values.collegeName,
+        email:location.state.obj.email,
+        name:location.state.obj.name,
+        skills:skills,
+      }
+      addProfile(regObj);
+      navigate('/home', { replace: true },{email:props.email,name:props.name})
     },
   })
 
   const { errors, touched, handleSubmit, isSubmitting, getFieldProps } = formik
-
+ 
   return (
     <FormikProvider value={formik}>
       <Form autoComplete='off' noValidate onSubmit={handleSubmit}>
@@ -66,24 +95,24 @@ export default function RegisterForm2() {
           />
           <FormGroup>
             <FormControlLabel
-              control={<Checkbox defaultChecked />}
+              control={<Checkbox onChange={handleChange} defaultChecked name ="Newbie"/>}
               label='Newbie'
             />
             <FormControlLabel
-              control={<Checkbox />}
+              control={<Checkbox onChange={handleChange} name="Backend Developer" />}
               label='Backend Developer'
             />
             <FormControlLabel
-              control={<Checkbox />}
+              control={<Checkbox onChange={handleChange} name="Frontend Developer" />}
               label='Frontend Developer'
             />
             <FormControlLabel
-              control={<Checkbox />}
+              control={<Checkbox onChange={handleChange} name = "Android Developer" />}
               label='Android Developer'
             />
-            <FormControlLabel control={<Checkbox />} label='ML/AI Developer' />
-            <FormControlLabel control={<Checkbox />} label='UI/UX Designer' />
-            <FormControlLabel control={<Checkbox />} label='Cloud Computing' />
+            <FormControlLabel control={<Checkbox onChange={handleChange} name='ML/AI Developer' />} label='ML/AI Developer' />
+            <FormControlLabel control={<Checkbox onChange={handleChange} name= 'UI/UX Designer'/>} label='UI/UX Designer' />
+            <FormControlLabel control={<Checkbox onChange={handleChange} name= 'Cloud Computing' />} label='Cloud Computing' />
             <FormControlLabel
               control={<Checkbox />}
               label='Blockchain Developer'

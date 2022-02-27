@@ -1,11 +1,9 @@
 import axios from "axios";
 
-function getLocation(location){
+export const getLocation=function (location){
     return axios.post('https://hackmol3.herokuapp.com/search/location',{location:location},{headers:{'Content-Type':'application/json'}});
 }
 
-function getskills(skills){
+export const getskills=function (skills){
     return axios.post('https://hackmol3.herokuapp.com/search/skills',{skills:skills},{headers:{'Content-Type':'application/json'}});
 }
-
-module.exports={getLocation,getskills};

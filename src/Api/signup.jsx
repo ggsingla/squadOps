@@ -1,6 +1,9 @@
 import axios  from "axios";
 
-export default function SignUp(email,password,Name){
-    return axios.post('https://hackmol3.herokuapp.com/signup',{email:email,password:password,name:Name},{headers:{'Content-Type':'application/json'}});
+export const signup= function(email,password,Name){
+    console.log(email,password,Name);
+    return axios.post('https://hackmol3.herokuapp.com/signup',{email:email,password:password,name:Name});
+
+ 
 };
 
