@@ -37,7 +37,7 @@ const HeaderStyle = styled('header')(({ theme }) => ({
 
 export default function Register() {
   return (
-    <RootStyle title='Register | Minimal-UI'>
+    <RootStyle title='Register'>
       <Container>
         <ContentStyle>
           <Box sx={{ mb: 5 }}>
