@@ -7,10 +7,14 @@ import { Stack, TextField, IconButton, InputAdornment } from '@mui/material'
 import { LoadingButton } from '@mui/lab'
 // component
 import Iconify from '../Iconify'
-import {signup} from '../../../Api/signup'
+import { useDispatch,useSelector } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import {register} from '../../../State/Actions/auth'
+import axios from 'axios'
 // ----------------------------------------------------------------------
 
 export default function RegisterForm(props) {
+  const dispatch = useDispatch();
   const navigate = useNavigate()
   const [showPassword, setShowPassword] = useState(false)
   const RegisterSchema = Yup.object().shape({
@@ -37,12 +41,14 @@ export default function RegisterForm(props) {
     },
     validationSchema: RegisterSchema,
     onSubmit: () => {
-      signup(formik.values.email,formik.values.password,formik.values.firstName+" "+formik.values.lastName);
-      // passing props to the next page and navigate to the next page
-      // go to register page
-      const obj={name:formik.values.firstName+" "+formik.values.lastName,email:formik.values.email};
-  
-      navigate('/register-step-2', { state: { obj } });
+        console.log(formik.values);
+        dispatch(register({
+           name:formik.values.firstName+' '+formik.values.lastName,
+            email:formik.values.email,
+            password:formik.values.password,
+          }));
+          
+         navigate('/register-step-2');
     },
   })
 

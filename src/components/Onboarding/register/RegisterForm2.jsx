@@ -3,7 +3,7 @@ import { useState } from 'react'
 import { useFormik, Form, FormikProvider } from 'formik'
 import { useNavigate,useLocation } from 'react-router-dom'
 // material
-import {addProfile} from '../../../Api/profile'
+
 import {
   Stack,
   TextField,
@@ -18,26 +18,32 @@ import LinkedInIcon from '@mui/icons-material/LinkedIn'
 import ApartmentIcon from '@mui/icons-material/Apartment'
 import GitHubIcon from '@mui/icons-material/GitHub'
 // ----------------------------------------------------------------------
+import { useDispatch,useSelector } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import {profile} from '../../../State/Actions/auth'
 
 export default function RegisterForm2(props) {
-  const location=useLocation();
-  const [state, setState] = useState({});
+  const dispatch = useDispatch();
+  const [reg,setreg]=useState({});
+  const det = useSelector((state) => state.user);
+  det.then((data)=>{
+    setreg(data);
+  });
+  console.log(reg);
+  const [state, setState] = useState([]);
   const handleChange = (event) => {
-    setState({
-      ...state,
-      [event.target.name]: event.target.checked,
-    });
-  };
-  const [skills,setSkills]=useState([]);
-  const handleSkills = (event) => {
-    let arr=[];
-    for(let skill in state){
-      if(state[skill]===true){
-        arr.push(skill);
-      }
+
+    var isChecked = event.target.checked;
+    var value = event.target.name;
+    if (isChecked) {
+      setState((state) => [...state, value]);
+    } 
+    else {
+      setState((state) => state.filter((s) => s !== value));
     }
-    setSkills(arr);
+    console.log(state);
   };
+  
   const navigate = useNavigate()
   const RegisterSchema = Yup.object().shape({
     collegeName: Yup.string()
@@ -48,6 +54,8 @@ export default function RegisterForm2(props) {
     githubURL: Yup.string()
       .url('Invalid URL')
       .required('Github URL is required'),
+    DiscordId: Yup.string().min(5, 'Invalid Discord ID').required('Discord ID is required'),
+
   })
 
   const formik = useFormik({
@@ -55,21 +63,20 @@ export default function RegisterForm2(props) {
       collegeName: '',
       linkedInURL: '',
       githubURL: '',
+      DiscordId: '',
     },
     validationSchema: RegisterSchema,
     onSubmit: () => {
-      handleSkills();
       
-      const regObj={
-        socialLinks:[formik.values.linkedInURL,formik.values.githubURL],
-        edu: formik.values.collegeName,
-        email:location.state.obj.email,
-        name:location.state.obj.name,
-        skills:skills,
-      }
-      addProfile(regObj);
-      const obj={email:location.state.obj.email,name:location.state.obj.name};
-      navigate('/home',{state:{obj}});
+      console.log(state);
+      dispatch(profile({
+        email:reg.email,
+        edu:formik.values.collegeName,
+        socialLinks:{'LinkedIn':formik.values.linkedInURL,'Github':formik.values.githubURL},
+        skills:state,
+        discordId:formik.values.DiscordId,
+      }));
+      navigate('/home');
     },
   })
 
@@ -96,24 +103,24 @@ export default function RegisterForm2(props) {
           />
           <FormGroup>
             <FormControlLabel
-              control={<Checkbox onChange={handleChange} defaultChecked name ="Newbie"/>}
+              control={<Checkbox onClick={handleChange}  name ="Newbie"/>}
               label='Newbie'
             />
             <FormControlLabel
-              control={<Checkbox onChange={handleChange} name="Backend Developer" />}
+              control={<Checkbox onClick={handleChange} name="Backend Developer" />}
               label='Backend Developer'
             />
             <FormControlLabel
-              control={<Checkbox onChange={handleChange} name="Frontend Developer" />}
+              control={<Checkbox onClick={handleChange} name="Frontend Developer" />}
               label='Frontend Developer'
             />
             <FormControlLabel
-              control={<Checkbox onChange={handleChange} name = "Android Developer" />}
+              control={<Checkbox onClick={handleChange} name = "Android Developer" />}
               label='Android Developer'
             />
-            <FormControlLabel control={<Checkbox onChange={handleChange} name='ML/AI Developer' />} label='ML/AI Developer' />
-            <FormControlLabel control={<Checkbox onChange={handleChange} name= 'UI/UX Designer'/>} label='UI/UX Designer' />
-            <FormControlLabel control={<Checkbox onChange={handleChange} name= 'Cloud Computing' />} label='Cloud Computing' />
+            <FormControlLabel control={<Checkbox onClick={handleChange} name='ML/AI Developer' />} label='ML/AI Developer' />
+            <FormControlLabel control={<Checkbox onClick={handleChange} name= 'UI/UX Designer'/>} label='UI/UX Designer' />
+            <FormControlLabel control={<Checkbox onClick={handleChange} name= 'Cloud Computing' />} label='Cloud Computing' />
             <FormControlLabel
               control={<Checkbox />}
               label='Blockchain Developer'
@@ -141,6 +148,21 @@ export default function RegisterForm2(props) {
             {...getFieldProps('githubURL')}
             error={Boolean(touched.githubURL && errors.githubURL)}
             helperText={touched.githubURL && errors.githubURL}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position='start'>
+                  <GitHubIcon />
+                </InputAdornment>
+              ),
+            }}
+          />
+          <TextField
+            fullWidth
+            label='Discord Id'
+            placeholder='Discord Id'
+            {...getFieldProps('DiscordId')}
+            error={Boolean(touched.DiscordId && errors.DiscordId)}
+            helperText={touched.DiscordId && errors.DiscordId}
             InputProps={{
               startAdornment: (
                 <InputAdornment position='start'>
