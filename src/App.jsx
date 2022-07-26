@@ -10,6 +10,7 @@ import Login from './pages/Login'
 import Register from './pages/Register'
 import RegisterStep2 from './pages/RegisterStep2'
 import NewTeam from './pages/NewTeam'
+import FindTeam from './pages/FindTeam'
 
 const theme = createTheme({
   palette: {
@@ -46,6 +47,7 @@ export default function App() {
             <Route path='/register' element={<Register />} />
             <Route path='/register-step-2' element={<RegisterStep2 />} />
             <Route path='/new' element={<NewTeam />} />
+            <Route path='/find-team' element={<FindTeam />} />
           </Routes>
         </Container>
       </ThemeProvider>

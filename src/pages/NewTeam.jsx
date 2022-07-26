@@ -23,18 +23,20 @@ const ContentStyle = styled('div')(({ theme }) => ({
 }))
 
 // ----------------------------------------------------------------------
+// get id recieved from the url
 
 export default function NewTeam() {
+
   return (
     <RootStyle title='New Team'>
       <Container>
         <ContentStyle>
           <Box sx={{ mb: 5 }}>
             <Typography variant='h4' gutterBottom>
-              Complete Profile Details
+              Add Details about your team
             </Typography>
             <Typography sx={{ color: 'text.secondary' }}>
-              To ace your next hackathon, create your account.
+              To ace your next hackathon, create your new team.
             </Typography>
           </Box>
 

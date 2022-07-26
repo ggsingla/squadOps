@@ -5,6 +5,10 @@ import Avatar from '@mui/material/Avatar'
 import NotificationsNoneOutlinedIcon from '@mui/icons-material/NotificationsNoneOutlined'
 import { indigo } from '@mui/material/colors'
 import { Link as RouterLink } from 'react-router-dom'
+import { useSelector } from 'react-redux'
+import { useState } from 'react'
+
+
 
 function stringToColor(string) {
   let hash = 0
@@ -53,6 +57,13 @@ const useStyles = makeStyles({
 
 export default function Navbar(props) {
   const classes = useStyles(props)
+  const selector=useSelector(state=>state.user);
+  let [name,setname]=useState('John Doe');
+
+  selector.then(data=>{
+    setname(data.name);
+  });
+
 
   return (
     <>
@@ -91,7 +102,7 @@ export default function Navbar(props) {
           <NotificationsNoneOutlinedIcon color='inherit' />
           <Avatar
             sx={{ height: 40, width: 40 }}
-            {...stringAvatar('Gautam Singla')}
+            {...stringAvatar(`${name}`)}
           />
         </Stack>
       </Box>

@@ -8,9 +8,8 @@ import { LoadingButton } from '@mui/lab'
 // component
 import Iconify from '../Iconify'
 import { useDispatch,useSelector } from 'react-redux'
-import { bindActionCreators } from 'redux'
 import {register} from '../../../State/Actions/auth'
-import axios from 'axios'
+
 // ----------------------------------------------------------------------
 
 export default function RegisterForm(props) {

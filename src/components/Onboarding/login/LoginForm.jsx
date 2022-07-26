@@ -15,12 +15,15 @@ import {
 import { LoadingButton } from '@mui/lab'
 // component
 import Iconify from '../Iconify'
-
+import { useDispatch } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import {login} from '../../../State/Actions/auth'
 // ----------------------------------------------------------------------
 
 export default function LoginForm() {
   const navigate = useNavigate()
   const [showPassword, setShowPassword] = useState(false)
+  const dispatch = useDispatch();
 
   const LoginSchema = Yup.object().shape({
     email: Yup.string()
@@ -37,10 +40,9 @@ export default function LoginForm() {
     },
     validationSchema: LoginSchema,
     onSubmit: () => {
-      login(formik.values.email, formik.values.password);
+      dispatch(login({'email': formik.values.email, 'password': formik.values.password}));
 
-      const obj={email:formik.values.email};
-      navigate('/home', { replace: true },{state:{obj}})
+      navigate('/home')
     },
   })
 

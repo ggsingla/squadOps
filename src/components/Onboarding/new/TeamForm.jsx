@@ -16,17 +16,49 @@ import {
 } from '@mui/material'
 import { LoadingButton } from '@mui/lab'
 import AddCircleIcon from '@mui/icons-material/AddCircle'
+import {useSelector} from 'react-redux'
+import { useDispatch } from 'react-redux'
+import {addTeam} from '../../../State/Actions/team'
 // ----------------------------------------------------------------------
 
 export default function TeamForm() {
   const navigate = useNavigate();
-  const location = useLocation();
-  const LoginSchema = Yup.object().shape({
+  const dispatch = useDispatch();
+  const TeamSchema = Yup.object().shape({
     name: Yup.string()
       .min(2, 'Too Short!')
       .max(50, 'Too Long')
       .required('Name is required'),
+    leaderName: Yup.string()
+      .min(2, 'Too Short!')
+      .max(50, 'Too Long!')
+      .required('Leader name required'),
+    requirements: Yup.string()
+      .min(2, 'Too Short!')
+      .max(50, 'Too Long!')
+      .required('Requirements is required'),
+    desc: Yup.string()
+      .min(2, 'Too Short!')
+      .max(50, 'Too Long!')
+      .required('Description is required'),
+
   })
+
+  const sel=useSelector(state=>state.user);
+  const [Email,setEmail]=useState('');
+
+  sel.then((data)=>{
+    setEmail(data.email);
+  });
+  
+  const id=useSelector(state=>state.team);
+  const [HackId,setHackId]=useState('');
+
+  
+  id.then((data)=>{
+    setHackId(data);
+  });
+  
   const [member, setMember] = useState('')
   const [members, setMembers] = useState([])
   const handleMemberSubmit = (e) => {
@@ -34,35 +66,29 @@ export default function TeamForm() {
     setMember('')
   }
   
-  const [skill, setSkill] = useState('')
-  const [skills, setSkills] = useState([])
-  const handleSkillSubmit = (e) => {
-    setSkills([...skills, skill])
-    setSkill('')
-  }
+  
   const formik = useFormik({
     initialValues: {
       name: '',
+      leaderName: '',
+      requirements: '',
+      desc: '',
     },
-    validationSchema: LoginSchema,
+    validationSchema: TeamSchema,
     onSubmit: () => {
       const team={
-        teamname:formik.values.name,
-        leadername:"chirag",
-        leaderemail:"chirag@gmail.com",
-        completed:false,
-        teamsize:members.length,
-        members:members,
-        requirements:skills,
-        hackathonid: "867730b1-024d-4caf-9a66-8be3483a17d3",
-        hackathonname:"hackmol 3",
-
+         name:formik.values.name,
+         leaderName:formik.values.leaderName,
+         members:members,
+         hackathonName:HackId.name,
+         requirements:formik.values.requirements,
+         leaderEmail:Email,
+         desc:formik.values.desc,
+         hackathonid:HackId.id,
       }
-      console.log(team);
-      addTeam(team);
+      dispatch(addTeam(team));
       alert('Team added successfully');
-      navigate('/home', { replace: true })
-
+      // navigate('/home')
     },
   })
   
@@ -81,6 +107,16 @@ export default function TeamForm() {
             error={Boolean(touched.name && errors.name)}
             helperText={touched.name && errors.name}
           />
+          <TextField
+            fullWidth
+            multiLine
+            rows={4}
+            autoComplete='off'
+            type='leaderName'
+            label='Team Leader Name'
+            {...getFieldProps('leaderName')}>
+          
+            </TextField>
 
           <Stack spacing={2}>
             {members.map((single) => (
@@ -93,8 +129,10 @@ export default function TeamForm() {
                 onChange={(e) => setMember(e.target.value)}
                 fullWidth
                 autoComplete='off'
-                type='text'
-                label='New Member'></TextField>
+                type='Members'
+                label='New Member'>
+
+                </TextField>
 
               <IconButton onClick={handleMemberSubmit}>
                 <AddCircleIcon />
@@ -106,28 +144,18 @@ export default function TeamForm() {
             multiLine
             rows={4}
             autoComplete='off'
-            type='text'
-            label='Description'></TextField>
+            type='requirements'
+            label='Requirements'
+            {...getFieldProps('requirements')}></TextField>
 
-          <Stack spacing={2}>
-            {skills.map((single) => (
-              <Typography variant='body1'>{single}</Typography>
-            ))}
-
-            <Stack direction='row' spacing={2}>
-              <TextField
-                value={skill}
-                onChange={(e) => setSkill(e.target.value)}
-                fullWidth
-                autoComplete='off'
-                type='text'
-                label='Add Skill'></TextField>
-
-              <IconButton onClick={handleSkillSubmit}>
-                <AddCircleIcon />
-              </IconButton>
-            </Stack>
-          </Stack>
+          <TextField
+            fullWidth
+            multiLine
+            rows={4}
+            autoComplete='off'
+            type='desc'
+            label='Description'
+            {...getFieldProps('desc')}></TextField>
           <LoadingButton
             fullWidth
             size='large'

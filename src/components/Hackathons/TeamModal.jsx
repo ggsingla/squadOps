@@ -7,6 +7,9 @@ import { Button, Grid, InputBase, Stack } from '@mui/material'
 import { grey, indigo } from '@mui/material/colors'
 import { styled } from '@mui/material/styles'
 import { useState } from 'react'
+import { useDispatch,useSelector } from 'react-redux'
+import {adduserteam} from '../../State/Actions/userteam'
+
 
 const style = {
   position: 'absolute',
@@ -44,14 +47,22 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }))
 
-export default function TeamModal({ team, open, handleClose }) {
-  const [submitted, setSubmited] = useState(false)
 
-  const showThanks = () => {
-    setSubmited(true)
+export default function TeamModal({ team, open, handleClose }) {
+  const [submitted, setSubmited] = useState(true);
+  
+  
+  const showThanks = (message) => {
+    setSubmited(true);
   }
   const showForm = () => {
-    setSubmited(false)
+    adduserteam({
+      email:team.leaderemail,
+      message:message,
+      hackathonName:team.hackathonname,
+      hackathonid:team.hackathonid
+    });    
+    setSubmited(false);
   }
   return (
     <div>
@@ -69,10 +80,10 @@ export default function TeamModal({ team, open, handleClose }) {
             <Stack spacing={3} sx={{ p: 4 }} id='left'>
               <Stack spacing={2} id='header'>
                 <Typography variant='h4' fontWeight='fontWeightBold'>
-                  {team.name}
+                  {team.teamname}
                 </Typography>
                 <Typography variant='body2' color='text.secondary'>
-                  {team.desp}
+                  {team.desc}
                 </Typography>
               </Stack>
               <Stack spacing={1} id='members'>
@@ -84,7 +95,7 @@ export default function TeamModal({ team, open, handleClose }) {
                   Members
                 </Typography>
                 <Grid container>
-                  {team.members.map((member) => (
+                  {team.teammembers.map((member) => (
                     <Grid item xs={6}>
                       <Typography variant='subtitle1' fontWeight={500}>
                         {member}
@@ -99,13 +110,13 @@ export default function TeamModal({ team, open, handleClose }) {
                   fontSize={16}
                   color='text.secondary'
                   fontWeight='fontWeightBold'>
-                  Requirements
+                  {team.requirements}
                 </Typography>
                 <Typography
                   variant='subtitle1'
                   fontWeight={500}
                   color='primary'>
-                  {team.required}
+                  {team.requirements}
                 </Typography>
               </Stack>
             </Stack>
@@ -122,7 +133,7 @@ export default function TeamModal({ team, open, handleClose }) {
 }
 
 function ModalRight({ showThanks }) {
-  const [message, setMessage] = useState('')
+  const [message, setMessage] = useState('');
   return (
     <Stack
       spacing={3}
@@ -154,13 +165,13 @@ function ModalRight({ showThanks }) {
           />
         </Message>
         <Button
-          onClick={showThanks}
+          onClick={showThanks(message)}
           variant='contained'
           sx={{
             width: 'fit-content',
           }}
           disabled={message.length === 0}>
-          Reach Out
+          Submit
         </Button>
       </Stack>
     </Stack>

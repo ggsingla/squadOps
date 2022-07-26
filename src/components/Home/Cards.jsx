@@ -8,8 +8,10 @@ import Typography from '@mui/material/Typography'
 import { Grid, Link, Paper, Stack } from '@mui/material'
 import LinkIcon from '@mui/icons-material/Link'
 import { green } from '@mui/material/colors'
-import axios from 'axios'
-import { Route, useNavigate,useLocation } from 'react-router-dom';
+import { useNavigate,useLocation } from 'react-router-dom';
+import { useSelector } from 'react-redux'
+import { getId,getTeam} from '../../State/Actions/team'
+import { useDispatch } from 'react-redux'
 const bull = (
   <Box
     component='span'
@@ -25,16 +27,18 @@ const bull = (
 
 function HackathonCard({ hackathon }) {
   const navigate = useNavigate();
-  const location = useLocation();
-  
-  const handleSubmit=(id,name)=>{
-   
-    navigate('/new', { replace: true },{state:{id:id,name:name}});
+  const dispatch = useDispatch();
+
+  const handleSubmit = (id) => {
+    dispatch(getId(id));
+    navigate('/new');
   }
   
-  const handleSubmit1=(id,name)=>{
-    navigate('/hackathon', { replace: true },{state:{id:id,name:name}});
+  const handleSubmit1 = (id) => {
+    dispatch(getTeam({id:id}));
+    navigate('/find-team');
   }
+
   return (
     <Grid
       sx={{
@@ -103,10 +107,10 @@ function HackathonCard({ hackathon }) {
         <CardActions>
           <Stack spacing={2} sx={{ width: '100%' }}>
             <Button variant='contained' sx={{ width: '100%' }}
-              onClick={()=>handleSubmit1(hackathon.id,hackathon.name)}>
+              onClick={()=>handleSubmit1(hackathon.id)}>
               Join a Team
             </Button>
-            <Button variant='outlined' sx={{ width: '100%' }} onClick={()=>handleSubmit(hackathon.id,hackathon.name)}>
+            <Button variant='outlined' sx={{ width: '100%' }} onClick={()=>handleSubmit(hackathon.id)}>
               Complete your Team
             </Button>
           </Stack>
@@ -127,21 +131,24 @@ const Hackathon = {
   website: 'https://hackmol3.tech',
 }
 
-async function getHackathons() {
-  const response = await axios.get('https://hackmol3.herokuapp.com/hackthon/show')
-  return response.data;
-}
 export default function HackathonCards() {
-  const [hackathons, setHackathons] = React.useState([]);
-  React.useEffect(() => {
-    getHackathons().then(setHackathons);
-  },[]);
-  console.log(hackathons);
+  const [hackathon, setHackathon] = React.useState([]);
+
+  const hack=useSelector(state=>state.hackthon);
+  
+  hack.then(data=>{
+    setHackathon(data);
+  });
+  
+ 
+
   return (
     <Grid container spacing={4}>
-      {hackathons.map((hackathon) => (
-        <HackathonCard hackathon={hackathon} />
+      {hackathon.map((hackathon, index) => (
+ 
+        <HackathonCard hackathon={hackathon} key={index} />
       ))}
+      
     </Grid>
   )
 }

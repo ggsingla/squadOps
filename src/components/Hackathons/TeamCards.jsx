@@ -3,7 +3,7 @@ import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
-import { useLocation } from "react-router-dom";
+import {useSelector} from "react-redux";
 import {
   Avatar,
   Grid,
@@ -12,15 +12,18 @@ import {
   ListItemText,
   Stack,
 } from "@mui/material";
+
+import {profile} from '../../State/Actions/auth';
 import { useEffect, useState } from "react";
 import TeamModal from "./TeamModal";
-
-
+import {useDispatch} from "react-redux";
 
 function HackathonCard({ team }) {
- 
+  console.log(team);
+
   const [pinned, setPinned] = useState(false);
   const [open, setOpen] = useState(false);
+
   function handleClose() {
     setOpen(false);
   }
@@ -69,9 +72,9 @@ function HackathonCard({ team }) {
                 color="text.primary"
                 component="div"
               >
-                {team.name}
+                {team.teamname}
               </Typography>
-              <Typography sx={{ fontWeight: "500" }}>
+              {/* <Typography sx={{ fontWeight: "500" }}>
                 <Typography
                   component="span"
                   variant="h5"
@@ -81,7 +84,7 @@ function HackathonCard({ team }) {
                   {team.members.length}
                 </Typography>
                 /{team.maxSize}
-              </Typography>
+              </Typography> */}
             </Stack>
             <Stack
               id="members"
@@ -101,7 +104,7 @@ function HackathonCard({ team }) {
                 </Typography>
                 <Typography variant="body1">
                   <List sx={{ p: 0, m: 0 }}>
-                    {team.members.map((member) => (
+                    {team.teammembers.map((member) => (
                       <ListItem sx={{ p: 0 }}>
                         <ListItemText
                           align="right"
@@ -133,7 +136,7 @@ function HackathonCard({ team }) {
                     maxWidth: "60%",
                   }}
                 >
-                  {team.required}
+                  {team.requirements}
                 </Typography>
               </Stack>
             </Stack>
@@ -162,18 +165,25 @@ const Team = {
   name: 'Geeky Builders',
   desp: 'We are looking for an ethusiaist Desiger and backend developer, who can help us in making our idea into a reality. We are not looking for professional level of work but a little peak on your previous projects would help us build a trust in you. We are always looking to expand our team.',
   id: 1,
-members: ['Marley Press', 'Marley Press', 'Marley Press'],
-  maxSize: '5',
+  members: ['Marley Press', 'Marley Press', 'Marley Press'],
   required: 'Designer, Backend Dev',
 }
 export default function TeamCards() {
-  
+  const sel=useSelector(state=>state.team);
+  const [Team,setTeam]=useState([]);
+
+  sel.then(data=>{
+    setTeam(data);
+  });
+
+   
   return (
     <Grid sx={{ position: 'initial' }} container spacing={6}>
-      <HackathonCard team={Team} />
-      <HackathonCard team={Team} />
-      <HackathonCard team={Team} />
-      <HackathonCard team={Team} />
+      {Team.map((team,index)=>(
+        
+        <HackathonCard team={team} key={index}/>
+      ))}
+      
       
     </Grid>
   )
