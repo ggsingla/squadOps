@@ -1,5 +1,5 @@
 import axios from "axios"
-let url='http://localhost:8000';
+let url='https://hackmol3.herokuapp.com/';
 
 const intialState = {}
 const reducer=async (state=intialState,action)=>{
